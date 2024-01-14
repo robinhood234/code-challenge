@@ -18,3 +18,10 @@ class HeroPower(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     hero_id = db.Column(db.Integer, db.ForeignKey('hero.id'), nullable=False)
     power_id = db.Column(db.Integer, db.ForeignKey('power.id'), nullable=False)
+    strength = db.Column(db.Enum('Strong', 'Weak', 'Average'), nullable=False)
+
+    @validates('strength')
+    def validate_strength(self, key, value):
+        if value not in ['Strong', 'Weak', 'Average']:
+            raise ValueError("Invalid strength value. Must be one of 'Strong', 'Weak', or 'Average'.")
+        return value
