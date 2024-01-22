@@ -66,10 +66,15 @@ def get_heroes():
 
 @app.route('/powers', methods=['GET'])
 def get_powers():
-    db = get_db()
-    powers = db.execute('SELECT * FROM powers').fetchall()
-    powers = [dict(power) for power in powers]
-    return jsonify(powers)
+    powers = Powers.query.all()
+    powers_list = []
+    from power in powers:
+         powers_list.append({
+    "id": 1,
+    "name": "super strength",
+    "description": "gives the wielder super-human strengths"
+         })         
+    return jsonify({"powers" : powers_list}),200
 
 @app.route('/powers/<int:power_id>', methods=['GET', 'PATCH'])
 def get_or_update_power(power_id):
