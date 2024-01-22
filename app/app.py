@@ -16,12 +16,27 @@ migrate = Migrate(app, db)
 
 db.init_app(app)
 # api = API(app)
-@app.route('/heroes', methods=['GET'])
-def get_heroes():
-    db = get_db()
-    heroes = db.execute('SELECT * FROM heroes').fetchall()
-    heroes = [dict(hero) for hero in heroes]
-    return jsonify(heroes)
+# @app.route('/heroes', methods=['GET'])
+
+    # db = get_db()
+    # heroes = db.execute('SELECT * FROM heroes').fetchall()
+    # heroes = [dict(hero) for hero in heroes]
+    # return jsonify(heroes)
+
+    #fetch all heroes
+# @app.route("/heroes")
+# def get_heroes():
+#     heroes = Hero.query.all()
+#     heroes_list = []
+#     for hero in heroes:
+#         heroes_list.append({
+#             'id': hero.id,
+#             "name": hero.name,
+#             "super name": hero.super_name,
+#             "created at": hero.created_at,
+#             "updated at": hero.updated_at,
+#         })
+#     return jsonify({"heroes" : heroes_list}),200
 
 @app.route('/heroes/<int:hero_id>', methods=['GET'])
 def get_hero(hero_id):
@@ -34,6 +49,20 @@ def get_hero(hero_id):
     powers = [dict(power) for power in powers]
     hero['powers'] = powers
     return jsonify(hero)
+
+@app.route('/heroes', methods=['GET'])
+def get_heroes():
+    heroes = Hero.query.all()
+    heroes_list = []
+    for hero in heroes:
+        heroes_list.append({
+            'id': hero.id,
+            "name": hero.name,
+            "super name": hero.super_name,
+            "created at": hero.created_at,
+            "updated at": hero.updated_at,
+        })
+    return jsonify({"heroes" : heroes_list}),200
 
 @app.route('/powers', methods=['GET'])
 def get_powers():
